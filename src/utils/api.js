@@ -1,0 +1,41 @@
+import {
+  getAccessToken,
+  putAccessToken,
+  register,
+  login,
+  getOwnProfile,
+  getAllUsers,
+  getAllThreads,
+  getThreadDetail,
+  createThread,
+  createComment,
+  upVoteThread,
+  downVoteThread,
+  neutralizeThreadVote,
+  upVoteComment,
+  downVoteComment,
+  neutralizeCommentVote,
+  getLeaderboards,
+} from '../api/network';
+
+const api = {
+  getAccessToken,
+  putAccessToken,
+  register,
+  login,
+  getOwnProfile,
+  getAllUsers,
+  getAllThreads,
+  getThreadDetail,
+  createThread,
+  createComment,
+  upVoteThread,
+  downVoteThread,
+  neutralizeThreadVote,
+  upVoteComment,
+  downVoteComment,
+  neutralizeCommentVote,
+  getLeaderboards,
+};
+
+export default api;
