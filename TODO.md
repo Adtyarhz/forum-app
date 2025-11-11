@@ -1,5 +1,0 @@
-- [ ] Wrap login and register pages with auth-page container for vertical centering
-- [ ] Update CSS for auth-page class to center forms vertically
-- [ ] Adjust login-form and register-form styles for responsive width and padding
-- [ ] Reduce title font size on mobile for better fit
-- [ ] Test responsiveness on different screen sizes
