@@ -3,15 +3,11 @@ name: Continuous Integration
 on:
   pull_request:
     branches:
-      - master
       - main
 
 jobs:
   automation-test-job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -22,5 +18,5 @@ jobs:
           cache: 'npm'
       - name: npm install and test
         run: |
-          npm ci
+          npm install
           npm run ci:test
