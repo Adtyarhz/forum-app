@@ -104,7 +104,7 @@ function asyncNeutralizeVoteThread(threadId) {
     dispatch(showLoading());
     dispatch(neutralizeVoteThreadActionCreator({ threadId, userId: authUser.id }));
     try {
-      await api.neutralizeVoteThread(threadId);
+      await api.neutralizeThreadVote(threadId);
     } catch (error) {
       alert(error.message);
     }

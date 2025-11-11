@@ -6,8 +6,13 @@ function LoginInput({ login }) {
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+    login({ email, password });
+  };
+
   return (
-    <form className="login-form-content" data-testid="login-form">
+    <form className="login-form-content" data-testid="login-form" onSubmit={onSubmit}>
       <input
         type="email"
         value={email}
@@ -23,8 +28,7 @@ function LoginInput({ login }) {
         className="input-field"
       />
       <button
-        type="button"
-        onClick={() => login({ email, password })}
+        type="submit"
         className="btn-primary"
       >
         Login

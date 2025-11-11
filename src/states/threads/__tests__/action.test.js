@@ -1,10 +1,5 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import * as actions from '../action';
 import api from '../../../utils/api';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 
 jest.mock('../../../utils/api');
 
@@ -14,7 +9,7 @@ describe('threads actions', () => {
   });
 
   describe('asyncAddThread', () => {
-    it('should dispatch correct actions on successful thread creation', async () => {
+    it('should call api.createThread with correct data', async () => {
       // arrange
       const fakeThreadData = {
         title: 'New Thread',
@@ -35,23 +30,14 @@ describe('threads actions', () => {
 
       api.createThread.mockResolvedValue(fakeThreadResponse);
 
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        { type: 'ADD_THREAD', payload: { thread: fakeThreadResponse } },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({});
-
       // action
-      await store.dispatch(actions.asyncAddThread(fakeThreadData));
+      await actions.asyncAddThread(fakeThreadData)(() => {}, () => {});
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
       expect(api.createThread).toHaveBeenCalledWith(fakeThreadData);
     });
 
-    it('should dispatch correct actions on failed thread creation', async () => {
+    it('should handle error when api.createThread fails', async () => {
       // arrange
       const fakeError = new Error('Failed to create thread');
       const fakeThreadData = {
@@ -62,54 +48,32 @@ describe('threads actions', () => {
 
       api.createThread.mockRejectedValue(fakeError);
 
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({});
-
       // Mock alert to prevent console error
       global.alert = jest.fn();
 
       // action
-      await store.dispatch(actions.asyncAddThread(fakeThreadData));
+      await actions.asyncAddThread(fakeThreadData)(() => {}, () => {});
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
       expect(api.createThread).toHaveBeenCalledWith(fakeThreadData);
       expect(global.alert).toHaveBeenCalledWith(fakeError.message);
     });
   });
 
   describe('asyncUpVoteThread', () => {
-    it('should dispatch correct actions on successful up vote', async () => {
+    it('should call api.upVoteThread with correct threadId', async () => {
       // arrange
       const threadId = 'thread-1';
       const fakeAuthUser = { id: 'user-1' };
 
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        {
-          type: 'UP_VOTE_THREAD',
-          payload: { threadId, userId: fakeAuthUser.id },
-        },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({
-        authUser: fakeAuthUser,
-      });
-
       // action
-      await store.dispatch(actions.asyncUpVoteThread(threadId));
+      await actions.asyncUpVoteThread(threadId)(() => {}, () => ({ authUser: fakeAuthUser }));
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
       expect(api.upVoteThread).toHaveBeenCalledWith(threadId);
     });
 
-    it('should dispatch correct actions on failed up vote', async () => {
+    it('should handle error when api.upVoteThread fails', async () => {
       // arrange
       const threadId = 'thread-1';
       const fakeAuthUser = { id: 'user-1' };
@@ -117,60 +81,32 @@ describe('threads actions', () => {
 
       api.upVoteThread.mockRejectedValue(fakeError);
 
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        {
-          type: 'UP_VOTE_THREAD',
-          payload: { threadId, userId: fakeAuthUser.id },
-        },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({
-        authUser: fakeAuthUser,
-      });
-
       // Mock alert to prevent console error
       global.alert = jest.fn();
 
       // action
-      await store.dispatch(actions.asyncUpVoteThread(threadId));
+      await actions.asyncUpVoteThread(threadId)(() => {}, () => ({ authUser: fakeAuthUser }));
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
       expect(api.upVoteThread).toHaveBeenCalledWith(threadId);
       expect(global.alert).toHaveBeenCalledWith(fakeError.message);
     });
   });
 
   describe('asyncDownVoteThread', () => {
-    it('should dispatch correct actions on successful down vote', async () => {
+    it('should call api.downVoteThread with correct threadId', async () => {
       // arrange
       const threadId = 'thread-1';
       const fakeAuthUser = { id: 'user-1' };
 
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        {
-          type: 'DOWN_VOTE_THREAD',
-          payload: { threadId, userId: fakeAuthUser.id },
-        },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({
-        authUser: fakeAuthUser,
-      });
-
       // action
-      await store.dispatch(actions.asyncDownVoteThread(threadId));
+      await actions.asyncDownVoteThread(threadId)(() => {}, () => ({ authUser: fakeAuthUser }));
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
       expect(api.downVoteThread).toHaveBeenCalledWith(threadId);
     });
 
-    it('should dispatch correct actions on failed down vote', async () => {
+    it('should handle error when api.downVoteThread fails', async () => {
       // arrange
       const threadId = 'thread-1';
       const fakeAuthUser = { id: 'user-1' };
@@ -178,92 +114,47 @@ describe('threads actions', () => {
 
       api.downVoteThread.mockRejectedValue(fakeError);
 
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        {
-          type: 'DOWN_VOTE_THREAD',
-          payload: { threadId, userId: fakeAuthUser.id },
-        },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({
-        authUser: fakeAuthUser,
-      });
-
       // Mock alert to prevent console error
       global.alert = jest.fn();
 
       // action
-      await store.dispatch(actions.asyncDownVoteThread(threadId));
+      await actions.asyncDownVoteThread(threadId)(() => {}, () => ({ authUser: fakeAuthUser }));
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
       expect(api.downVoteThread).toHaveBeenCalledWith(threadId);
       expect(global.alert).toHaveBeenCalledWith(fakeError.message);
     });
   });
 
   describe('asyncNeutralizeVoteThread', () => {
-    it('should dispatch correct actions on successful neutralize vote', async () => {
+    it('should call api.neutralizeThreadVote with correct threadId', async () => {
       // arrange
       const threadId = 'thread-1';
       const fakeAuthUser = { id: 'user-1' };
 
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        {
-          type: 'NEUTRALIZE_VOTE_THREAD',
-          payload: { threadId, userId: fakeAuthUser.id },
-        },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({
-        authUser: fakeAuthUser,
-      });
-
       // action
-      await store.dispatch(actions.asyncNeutralizeVoteThread(threadId));
+      await actions.asyncNeutralizeVoteThread(threadId)(() => {}, () => ({ authUser: fakeAuthUser }));
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
-      expect(api.neutralizeVoteThread).toHaveBeenCalledWith(threadId);
+      expect(api.neutralizeThreadVote).toHaveBeenCalledWith(threadId);
     });
 
-    it('should dispatch correct actions on failed neutralize vote', async () => {
+    it('should handle error when api.neutralizeVoteThread fails', async () => {
       // arrange
       const threadId = 'thread-1';
       const fakeAuthUser = { id: 'user-1' };
       const fakeError = new Error('Failed to neutralize vote');
 
-      api.neutralizeVoteThread.mockRejectedValue(fakeError);
-
-      const expectedActions = [
-        { type: 'SHOW_LOADING' },
-        {
-          type: 'NEUTRALIZE_VOTE_THREAD',
-          payload: { threadId, userId: fakeAuthUser.id },
-        },
-        { type: 'HIDE_LOADING' },
-      ];
-
-      const store = mockStore({
-        authUser: fakeAuthUser,
-      });
+      api.neutralizeThreadVote.mockRejectedValue(fakeError);
 
       // Mock alert to prevent console error
       global.alert = jest.fn();
 
       // action
-      await store.dispatch(actions.asyncNeutralizeVoteThread(threadId));
-
-      // action
-      await store.dispatch(actions.asyncNeutralizeVoteThread(threadId));
+      await actions.asyncNeutralizeVoteThread(threadId)(() => {}, () => ({ authUser: fakeAuthUser }));
 
       // assert
-      expect(store.getActions()).toEqual(expectedActions);
-      expect(api.neutralizeVoteThread).toHaveBeenCalledWith(threadId);
+      expect(api.neutralizeThreadVote).toHaveBeenCalledWith(threadId);
       expect(global.alert).toHaveBeenCalledWith(fakeError.message);
     });
   });

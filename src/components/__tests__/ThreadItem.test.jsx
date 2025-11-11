@@ -130,7 +130,7 @@ describe('ThreadItem', () => {
       store
     );
 
-    const threadItem = screen.getByRole('button');
+    const threadItem = screen.getByRole('button', { name: /thread pertama/i });
 
     // Action
     fireEvent.click(threadItem);
