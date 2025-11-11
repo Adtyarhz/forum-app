@@ -7,7 +7,7 @@ function LoginInput({ login }) {
   const [password, onPasswordChange] = useInput('');
 
   return (
-    <form className="login-form-content">
+    <form className="login-form-content" data-testid="login-form">
       <input
         type="email"
         value={email}
