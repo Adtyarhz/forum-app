@@ -5,7 +5,6 @@ import RegisterInput from '../components/RegisterInput';
 import { asyncRegisterUser } from '../states/users/action';
 
 function RegisterPage() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onRegister = ({ name, email, password }) => {
