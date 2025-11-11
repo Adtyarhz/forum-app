@@ -210,10 +210,19 @@ code {
   }
 }
 
+/* Auth page container for vertical centering */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
 /* Form styles */
 .login-form, .register-form {
   max-width: 32rem;
-  margin: 2rem auto 4rem;
+  width: 100%;
   padding: 2rem;
   border: none;
   border-radius: 1.5rem;
@@ -709,9 +718,17 @@ code {
     font-size: 1rem;
   }
 
+  .auth-page {
+    padding: 0.5rem;
+  }
+
   .login-form, .register-form {
-    margin: 1rem auto 2rem;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .login-title, .register-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .form-card {

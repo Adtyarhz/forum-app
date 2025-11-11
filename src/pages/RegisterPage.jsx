@@ -14,18 +14,20 @@ function RegisterPage() {
   };
 
   return (
-    <section className="register-form">
-      <h2 className="register-title">
-        Create your account
-      </h2>
-      <RegisterInput register={onRegister} />
-      <p className="register-link">
-        Already have an account?{' '}
-        <Link to="/" className="link-primary">
-          Login
-        </Link>
-      </p>
-    </section>
+    <div className="auth-page">
+      <section className="register-form">
+        <h2 className="register-title">
+          Create your account
+        </h2>
+        <RegisterInput register={onRegister} />
+        <p className="register-link">
+          Already have an account?{' '}
+          <Link to="/" className="link-primary">
+            Login
+          </Link>
+        </p>
+      </section>
+    </div>
   );
 }
 
