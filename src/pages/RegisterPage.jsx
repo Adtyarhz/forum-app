@@ -18,7 +18,7 @@ function RegisterPage() {
       <h2 className="register-title">
         Create your account
       </h2>
-      <RegisterInput register={onRegister} />
+      <RegisterInput register={} />
       <p className="register-link">
         Already have an account?{' '}
         <Link to="/" className="link-primary">
